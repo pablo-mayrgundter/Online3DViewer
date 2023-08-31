@@ -7,17 +7,16 @@ for use in terminal/headless environments.
 
 ```
 npm i
-yarn run build_engine_bldrs
-```
-
-The bundle is saved to `build/engine/o3dv.cjs`.
-
-From within headless-three, and assuming this repo is a peer directory, run:
-```
-rm -rf lib/ov/* && /bin/cp -rf ../Online3DViewer/build/engine/{o3dv.cjs,web-ifc-node.wasm} lib/ov
+npm run build_dist_bldrs
+ls dist/
+o3dv.cjs		web-ifc-node.wasm
 ```
 
 ## Changelog:
+
+### 0.9.0-bldrs-1
+  - Add npm script create_dist_bldrs
+  - Clean some lint
 
 ### 0.9.0-bldrs
   - Forked from https://github.com/kovacsv/Online3DViewer @ 0.9.0
@@ -33,6 +32,7 @@ rm -rf lib/ov/* && /bin/cp -rf ../Online3DViewer/build/engine/{o3dv.cjs,web-ifc-
 
 ### Known Issues
   - Not clear how OV is doing camera setup, but camera coordinates seem to work
+  - Tests: 206 passing, 23 failing
 
 ### Feature Requests
   - Add format support, by priority: glb, gltf, 3dm, 3mf, fcstd, amf, dae, mtl, off, wrl

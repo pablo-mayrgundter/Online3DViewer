@@ -2,7 +2,7 @@ import { Coord3D } from '../geometry/coord3d.js';
 import { Direction } from '../geometry/geometry.js';
 import { Matrix } from '../geometry/matrix.js';
 import { Transformation } from '../geometry/transformation.js';
-import { LoadExternalLibrary } from '../io/externallibs.js';
+// import { LoadExternalLibrary } from '../io/externallibs.js';
 import { RGBColorFromFloatComponents } from '../model/color.js';
 import { Mesh } from '../model/mesh.js';
 import { Property, PropertyGroup, PropertyType } from '../model/property.js';
@@ -10,7 +10,7 @@ import { Triangle } from '../model/triangle.js';
 import { ImporterBase } from './importerbase.js';
 import { ColorToMaterialConverter } from './importerutils.js';
 
-let WebIFC
+let WebIFC;
 export class ImporterIfc extends ImporterBase
 {
     constructor ()
@@ -43,17 +43,16 @@ export class ImporterIfc extends ImporterBase
 
     ImportContent (fileContent, onFinish)
     {
-      if (true) {
-        import('web-ifc').then((loadedLib) => {
-          // console.log('WebIFC', WebIFC);
-          WebIFC = loadedLib;
-          this.ifc = new WebIFC.IfcAPI ();
-          this.ifc.Init ().then (() => {
-            this.ImportIfcContent (fileContent);
-            onFinish ();
-          });
+      import('web-ifc').then((loadedLib) => {
+        // console.log('WebIFC', WebIFC);
+        WebIFC = loadedLib;
+        this.ifc = new WebIFC.IfcAPI ();
+        this.ifc.Init ().then (() => {
+          this.ImportIfcContent (fileContent);
+          onFinish ();
         });
-      } else {
+      });
+      /*
         if (this.ifc === null) {
             LoadExternalLibrary ('loaders/web-ifc-api-browser.js').then (() => {
                 this.ifc = new WebIFC.IfcAPI ();
@@ -62,7 +61,7 @@ export class ImporterIfc extends ImporterBase
                     onFinish ();
                 });
             }).catch ((e) => {
-              console.error(e)
+                console.error(e);
                 this.SetError ('Failed to load web-ifc.');
                 onFinish ();
             });
@@ -70,7 +69,7 @@ export class ImporterIfc extends ImporterBase
             this.ImportIfcContent (fileContent);
             onFinish ();
         }
-      }
+      */
     }
 
     ImportIfcContent (fileContent)

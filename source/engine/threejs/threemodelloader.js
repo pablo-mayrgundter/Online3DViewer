@@ -2,7 +2,7 @@ import { Direction } from '../geometry/geometry.js';
 import { Importer } from '../import/importer.js';
 import { RevokeObjectUrl } from '../io/bufferutils.js';
 import { ConvertModelToThreeObject, ModelToThreeConversionOutput, ModelToThreeConversionParams } from './threeconverter.js';
-import { ConvertColorToThreeColor, HasHighpDriverIssue } from './threeutils.js';
+import { ConvertColorToThreeColor, /* HasHighpDriverIssue */ } from './threeutils.js';
 
 import * as THREE from 'three';
 
