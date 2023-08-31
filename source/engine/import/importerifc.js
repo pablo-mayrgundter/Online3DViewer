@@ -10,6 +10,7 @@ import { Triangle } from '../model/triangle.js';
 import { ImporterBase } from './importerbase.js';
 import { ColorToMaterialConverter } from './importerutils.js';
 
+let WebIFC
 export class ImporterIfc extends ImporterBase
 {
     constructor ()
@@ -42,6 +43,17 @@ export class ImporterIfc extends ImporterBase
 
     ImportContent (fileContent, onFinish)
     {
+      if (true) {
+        import('web-ifc').then((loadedLib) => {
+          // console.log('WebIFC', WebIFC);
+          WebIFC = loadedLib;
+          this.ifc = new WebIFC.IfcAPI ();
+          this.ifc.Init ().then (() => {
+            this.ImportIfcContent (fileContent);
+            onFinish ();
+          });
+        });
+      } else {
         if (this.ifc === null) {
             LoadExternalLibrary ('loaders/web-ifc-api-browser.js').then (() => {
                 this.ifc = new WebIFC.IfcAPI ();
@@ -49,7 +61,8 @@ export class ImporterIfc extends ImporterBase
                     this.ImportIfcContent (fileContent);
                     onFinish ();
                 });
-            }).catch (() => {
+            }).catch ((e) => {
+              console.error(e)
                 this.SetError ('Failed to load web-ifc.');
                 onFinish ();
             });
@@ -57,6 +70,7 @@ export class ImporterIfc extends ImporterBase
             this.ImportIfcContent (fileContent);
             onFinish ();
         }
+      }
     }
 
     ImportIfcContent (fileContent)

@@ -1,3 +1,9 @@
+/*import FileReader from 'filereader';
+if (!globalThis.FileReader) {
+  globalThis.FileReader = FileReader;
+}*/
+import fs from 'fs';
+
 /**
  * File source identifier for import.
  * @enum
@@ -78,25 +84,37 @@ export function RequestUrl (url, onProgress)
 
 export function ReadFile (file, onProgress)
 {
+  // console.log('ReadFile:', file.path);
+  const buf = fs.readFileSync(file.path).buffer;
+  return Promise.resolve(buf);
+  /*
 	return new Promise ((resolve, reject) => {
 		let reader = new FileReader ();
 
 		reader.onprogress = (event) => {
+                  console.log('ReadFile: onprogress...', event.loaded, event.total);
 			onProgress (event.loaded, event.total);
 		};
 
 		reader.onloadend = (event) => {
+                        console.log('ReadFile: onloadend, going to resolve...');
 			if (event.target.readyState === FileReader.DONE) {
 				resolve (event.target.result);
 			}
 		};
 
 		reader.onerror = () => {
+                        console.error('ReadFile: error...');
 			reject ();
 		};
-
+		reader.abort = () => {
+                        console.error('ReadFile: abort...');
+			reject ();
+		};
+                console.log('ReadFile: reading file:', file);
 		reader.readAsArrayBuffer (file);
-	});
+	        });
+*/
 }
 
 export function TransformFileHostUrls (urls)

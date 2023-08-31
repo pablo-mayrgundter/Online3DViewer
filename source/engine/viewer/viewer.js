@@ -184,6 +184,7 @@ export class Viewer
 
         let parameters = {
             canvas : this.canvas,
+            context: canvas.getContext('webgl2'),
             antialias : true
         };
 

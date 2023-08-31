@@ -1,24 +1,41 @@
-# Online 3D Viewer
+# Online 3D Viewer - Bldrs
 
-[![Build status](https://github.com/kovacsv/Online3DViewer/actions/workflows/build.yml/badge.svg)](https://github.com/kovacsv/Online3DViewer/actions/workflows/build.yml)
-[![npm version](https://badge.fury.io/js/online-3d-viewer.svg)](https://badge.fury.io/js/online-3d-viewer)
-[![DeepScan grade](https://deepscan.io/api/teams/16586/projects/19893/branches/524595/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=16586&pid=19893&bid=524595)
+This is a fork of [Online3DViewer](https://github.com/kovacsv/Online3DViewer)
+for use in terminal/headless environments.
 
-Online 3D Viewer (https://3dviewer.net) is a free and open source web solution to visualize and explore 3D models in your browser. This repository contains the source code of the website and the library behind it.
+## Build
 
-[Live website](https://3dviewer.net) &nbsp;-&nbsp; [Website documentation](https://3dviewer.net/info) &nbsp;-&nbsp; [Developer documentation](https://kovacsv.github.io/Online3DViewer) &nbsp;-&nbsp; [Discord server](https://discord.gg/C7x9u833yN)
+```
+npm i
+yarn run build_engine_bldrs
+```
 
-## Example
+The bundle is saved to `build/engine/o3dv.cjs`.
 
-![Start Page](assets/images/3dviewer_net_start_page.png?raw=true)
+From within headless-three, and assuming this repo is a peer directory, run:
+```
+rm -rf lib/ov/* && /bin/cp -rf ../Online3DViewer/build/engine/{o3dv.cjs,web-ifc-node.wasm} lib/ov
+```
 
-[Check the live version!](https://3dviewer.net/#model=https://raw.githubusercontent.com/kovacsv/Online3DViewer/dev/test/testfiles/gltf/DamagedHelmet/glTF-Binary/DamagedHelmet.glb)
+## Changelog:
 
-## Supported file formats
+### 0.9.0-bldrs
+  - Forked from https://github.com/kovacsv/Online3DViewer @ 0.9.0
+  - Builds a bundle at ./build/engine/o3dv.cjs with tools/esbuild.js, targeting Node and CJS
+  - Tested with [headless-three](https://github.com/bldrs-ai/headless-three)
+    - Supports: ifc, obj, stl, fbx, 3ds, ply, bim
+  - web-ifc 0.0.39 -> 0.0.42
+  - Some experimenting with rollup CJS build
+  - Disable hasHighpDriverIssue/mobile testing (requires a canvas)
+  - Avoid FileReader with node fs-based reading
 
-* **Import**: obj, 3ds, stl, ply, gltf, glb, off, 3dm, fbx, dae, wrl, 3mf, amf, ifc, brep, step, iges, fcstd, bim.
-* **Export**: obj, stl, ply, gltf, glb, off, 3dm, bim.
+## TODO
 
-## External Libraries
+### Known Issues
+  - Not clear how OV is doing camera setup, but camera coordinates seem to work
 
-Online 3D Viewer uses these wonderful libraries: [three.js](https://github.com/mrdoob/three.js), [pickr](https://github.com/Simonwep/pickr), [fflate](https://github.com/101arrowz/fflate), [draco](https://github.com/google/draco), [rhino3dm](https://github.com/mcneel/rhino3dm), [web-ifc](https://github.com/tomvandig/web-ifc), [occt-import-js](https://github.com/kovacsv/occt-import-js).
+### Feature Requests
+  - Add format support, by priority: glb, gltf, 3dm, 3mf, fcstd, amf, dae, mtl, off, wrl
+  - Better rendering:
+    - Antialiasing
+    - A few nice environment maps?

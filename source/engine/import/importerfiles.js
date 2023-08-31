@@ -146,19 +146,36 @@ export class ImporterFileList
             return;
         }
         let loaderPromise = null;
+        file.source = FileSource.File;
+        file.path = file.data;
+        // console.log(
+        //  `ImporterFileList#GetFileContent: Url(${FileSource.Url}) File(${FileSource.File}), this file:`,
+        //  file.source, file);
+
         if (file.source === FileSource.Url) {
             loaderPromise = RequestUrl (file.data, callbacks.onProgress);
         } else if (file.source === FileSource.File) {
-            loaderPromise = ReadFile (file.data, callbacks.onProgress);
+            // console.log('ImporterFile#GetFileContent: calling ReadFile');
+            loaderPromise = ReadFile(file, () => {
+              // console.log('ReadFile: progress...');
+              callbacks.onProgress ();
+            });
         } else {
             callbacks.onReady ();
             return;
         }
-        loaderPromise.then ((content) => {
+
+        loaderPromise.then(
+          (content) => {
             file.SetContent (content);
-        }).catch (() => {
+          },
+          (reason) => {
+            console.error('FAILED TO LOAD: ', reason);
+          }
+        ).catch ((err) => {
+          console.trace(err);
         }).finally (() => {
-            callbacks.onReady ();
+          callbacks.onReady ();
         });
     }
 }

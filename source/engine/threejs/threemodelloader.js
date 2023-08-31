@@ -14,7 +14,7 @@ export class ThreeModelLoader
         this.inProgress = false;
         this.defaultMaterial = null;
         this.objectUrls = null;
-        this.hasHighpDriverIssue = HasHighpDriverIssue ();
+        this.hasHighpDriverIssue = false; // HasHighpDriverIssue ();
     }
 
     InProgress ()

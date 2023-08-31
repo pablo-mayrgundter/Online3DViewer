@@ -37,8 +37,12 @@ export class EmbeddedViewer
             this.parameters = parameters;
         }
 
-        this.canvas = document.createElement ('canvas');
-        this.parentElement.appendChild (this.canvas);
+        if (IsDefined(parameters.stubCanvas)) {
+            this.canvas = parameters.stubCanvas;
+        } else {
+            this.canvas = document.createElement ('canvas');
+            this.parentElement.appendChild (this.canvas);
+        }
 
         this.viewer = new Viewer ();
         this.viewer.Init (this.canvas);
@@ -149,7 +153,7 @@ export class EmbeddedViewer
 
                 this.model = importResult.model;
                 if (this.parameters.onModelLoaded) {
-                    this.parameters.onModelLoaded ();
+                    this.parameters.onModelLoaded (this.model);
                 }
             },
             onTextureLoaded : () => {

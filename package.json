@@ -1,10 +1,10 @@
 {
 	"name": "online-3d-viewer",
-	"version": "0.9.0",
+	"version": "0.9.0-bldrs",
 	"description": "Online 3D Viewer",
 	"license": "MIT",
 	"type": "module",
-	"main": "./build/engine/o3dv.module.js",
+	"main": "./build/engine/o3dv.cjs",
 	"repository": "github:kovacsv/Online3DViewer",
 	"keywords": [
 		"3d",
@@ -53,14 +53,17 @@
 		"build_dev": "npm run build_engine_dev && npm run build_website_dev",
 		"build_engine_dev": "npm run update_engine_exports && esbuild source/engine/main.js --bundle --minify --global-name=OV --sourcemap --outfile=build/engine_dev/o3dv.min.js",
 		"build_engine": "npm run update_engine_exports && esbuild source/engine/main.js --bundle --minify --global-name=OV --outfile=build/engine/o3dv.min.js",
-		"build_engine_module": "npm run update_engine_exports && rollup --config tools/rollup.js && tsc --project tools/tsconfig.json",
+		"build_engine_bldrs": "node tools/esbuild.js && /bin/cp -f node_modules/web-ifc/*.wasm build/engine/",
+		"build_engine_module": "npm run update_engine_exports && rollup --config tools/rollup.js",
 		"build_website_dev": "esbuild source/website/index.js --bundle --minify --global-name=OV --sourcemap --loader:.ttf=file --loader:.woff=file --loader:.svg=file --outfile=build/website_dev/o3dv.website.min.js",
 		"build_website": "esbuild source/website/index.js --bundle --minify --global-name=OV --loader:.ttf=file --loader:.woff=file --loader:.svg=file --outfile=build/website/o3dv.website.min.js",
 		"update_engine_exports": "run-python3 tools/update_engine_exports.py"
 	},
 	"devDependencies": {
+		"@rollup/plugin-commonjs": "^25.0.3",
+		"@rollup/plugin-node-resolve": "^15.1.0",
 		"@types/node": "^20.1.0",
-		"esbuild": "^0.18.0",
+		"esbuild": "^0.18.16",
 		"eslint": "^8.29.0",
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"fantasticon": "^1.2.2",
@@ -77,10 +80,11 @@
 		"@simonwep/pickr": "1.8.2",
 		"draco3d": "1.5.6",
 		"fflate": "0.8.0",
+		"filereader": "^0.10.3",
 		"occt-import-js": "0.0.19",
 		"rhino3dm": "7.15.0",
 		"three": "0.154.0",
-		"web-ifc": "0.0.39"
+		"web-ifc": "^0.0.42"
 	},
 	"eslintConfig": {
 		"env": {
