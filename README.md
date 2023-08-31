@@ -14,6 +14,10 @@ o3dv.cjs		web-ifc-node.wasm
 
 ## Changelog:
 
+### 0.9.0-bldrs-2
+  - Remove web-ifc-node.wasm to from lib/loaders
+  - Change package.json#main to dist/o3dv.cjs
+
 ### 0.9.0-bldrs-1
   - Add npm script create_dist_bldrs
   - Clean some lint
